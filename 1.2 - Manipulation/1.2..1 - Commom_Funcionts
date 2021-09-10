@@ -1,0 +1,97 @@
+-- ########## Relationmal databases
+--- SELECT * FROM celebs;
+
+-- RD organizes infos into tables. Table is the data organized into rows and columns, referred as relations (celebs) 
+-- All data stored in a relational database is of certain data type such as integer, text, date and real 
+
+-- ############# Statement 
+
+-- Statement: text recognized by the database as a command line ending with ; 
+
+-- example of statement 
+-- CREATE TABLE table_name (
+--   column_1 data_type, 
+--   column_2 data_type, 
+--   column_3 data_type
+-- );
+
+
+-- clauses written in capital and are commands such as CREATE TABLE 
+
+-- the following items inside ( ) are the parameters. 
+
+-- Selec and form are clauses 
+
+
+-- ######## CREATE 
+
+-- CREATE TABLE celebs (
+ --  id INTEGER, 
+  -- name TEXT, 
+ --  age INTEGER
+--);
+-- id stores INTEGER;  name stores TEXT and age stores INTEGER 
+
+-- ####### Insert 
+
+-- insert new row into a table 
+-- INSERT INTO celebs (id, name, age) 
+-- VALUES (1, 'Justin Bieber', 22);
+
+-- ######### SELECT
+
+-- used to fetch data ( display it )
+-- SELECT name FROM celebs; 
+
+-- asterisco pega tudo sem ter que nomear 
+
+
+-- ########## Alter 
+-- add a new column 
+
+-- ALTER TABLE celebs 
+-- ADD COLUMN twitter_handle TEXT;
+
+-- ########## Update 
+
+-- UPDATE celebs 
+-- SET twitter_handle = '@taylorswift13' 
+-- WHERE id = 4; 
+
+-- SET is a clause that indicates the column to edit.
+
+
+
+-- ######### Delete 
+-- deletes one or more rows. 
+
+-- DELETE FROM celebs 
+-- WHERE twitter_handle IS NULL;
+
+
+-- WHERE is a clause that lets you select which rows you want to delete. Here we want to delete all of the rows where the twitter_handle column IS NULL.
+
+
+ -- ########## Constraints 
+ -- tell the database to reject inserted data that does not adhere to a certain restriction
+ 
+--CREATE TABLE celebs (
+--   id INTEGER PRIMARY KEY, 
+--   name TEXT UNIQUE,
+--   date_of_birth TEXT NOT NULL,
+--   date_of_death TEXT DEFAULT 'Not Applicable'
+--);
+
+-- PRIMARY KEY: columns identify the row. tries to insert a row with identical value to a row already in the table wiil result into constraint violation and will not allow the situatiom 
+
+-- UNIQUE: different values for every row. similar to primary but table can have different UNIQUE columns 
+
+-- NOT NULL: columns must have a valeu. 
+
+-- DEFAULT: columns tak an additional argument that will be the assumed value for an inserted row if the new row does not specify a value for that column. 
+
+--CREATE TABLE awards(
+--  id INTEGER PRIMARY KEY, 
+--  recipient TEXT NOT NULL, 
+--  award_name TEXT DEFAULT 'Grammy'
+--)
