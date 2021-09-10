@@ -1,0 +1,98 @@
+######## INTRO 
+
+-- SQL: retrieve infos from a database -> query 
+
+SELECT *FROM movies;
+
+-- ######### Select 
+
+-- select to query data and * from all columns 
+
+SELECT name, genre, year
+FROM movies;
+
+-- ######## As 
+
+-- allows rename column or table. inside single quote
+
+
+SELECT name AS '_______'
+FROM movies;
+
+-- ######## Distinct 
+
+-- returns values in the output. filter duplicates 
+
+SELECT DISTINCT year
+FROM movies;
+
+-- ####### Where 
+
+-- restrict the query 
+-- filter resulte to include the row where the condition is true 
+
+-- = !=  > < >= <=
+
+SELECT * FROM movies
+WHERE year > 2014; 
+
+-- ####### LIKE Part 1 
+-- used with WHERE to search a specific pattern 
+-- 
+
+SELECT * 
+FROM movies
+WHERE name LIKE 'Se_en';
+
+-- The _ means you can substitute any individual character here without breaking the pattern. The names Seven and Se7en both match this pattern.
+
+-- ####### Like Part 2
+-- % can be used along LIKE 
+-- filters the result set to include only one specific parameter 
+
+-- it matches zero or more missing letters in the pattern 
+-- the position matters: A% takes word beggining with A and %a takes wwords ending with a
+-- %man% takes all that contais word man within 
+-- not case sensitive 
+
+SELECT * 
+FROM movies
+WHERE name LIKE 'The %';
+
+
+-- ####### IS NULL 
+
+-- unknown values indicated by null 
+-- not possible to use operators 
+
+-- IS NULL/IS NOT NULL instead
+
+SELECT name FROM movies 
+WHERE imdb_rating IS NULL;
+
+
+-- ###### BETWEEN 
+-- used in a WHERE to filter the result in a range 
+
+--SELECT * FROM movies 
+--WHERE name BETWEEN 'D' and 'G';
+
+-- pega o valor até um antes do ultimo 
+SELECT *
+FROM movies
+WHERE year BETWEEN 1970 AND 1979;
+
+-- ####### AND
+-- combine multiple conditions in WHERE
+
+--SELECT * FROM movies
+--WHERE year BETWEEN 1970 AND 1979
+--  AND imdb_rating > 8;
+
+SELECT *
+FROM movies
+WHERE year < 1985
+   AND genre = 'horror';
+
+
+
