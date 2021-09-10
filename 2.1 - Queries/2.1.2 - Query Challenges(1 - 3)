@@ -1,0 +1,45 @@
+Baby Names Introduction
+Welcome to Code Challenge: Queries!
+
+In this Code Challenge, you will be querying data from three different datasets:
+
+Baby Names
+Restaurants
+News Headlines
+In the first one, you will be performing analysis on U.S. baby names.
+
+You’ll start with a table named babies with four columns.
+
+######## Code Challenge 1
+The babies table has the following columns:
+1.Find the number of girls who were named Lillian for the full span of time of the database.Select only the year and number columns.
+
+name - the name of the baby
+year - the year the name was given
+gender - the gender of the baby
+number - the number of times the name was given
+
+SELECT year, number FROM babies 
+ WHERE name = 'Lillian';
+
+
+SELECT year, number FROM babies 
+ WHERE name = 'Lillian' AND gender = 'F';
+
+
+######## Code Challenge 2
+2.Find 20 distinct names that start with ‘S’. Select only the name column.
+
+SELECT DISTINCT name
+FROM babies
+WHERE name LIKE 'S%'
+LIMIT 20;
+
+######## Code Challenge 3
+
+3. What are the top 10 names in 1880? Select the name, gender, and number columns.
+
+SELECT name, gender, number FROM babies 
+ WHERE year = 1880 
+ ORDER BY number DESC
+ LIMIT 10;

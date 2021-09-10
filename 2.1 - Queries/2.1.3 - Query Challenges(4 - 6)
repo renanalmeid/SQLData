@@ -1,0 +1,35 @@
+Restaurants Introduction
+Next up, you will be querying data on restaurants:
+
+Baby Names
+Restaurants
+News Headlines
+We need your help to answer some questions and find the best dinner spots in the city!
+
+
+######## Challenge 4
+1. Suppose your friend Jaime wants to go out to Japanese, but you’re on a budget. Return all the restaurants that are Japanese and $$. 
+Select all the columns.
+SELECT *
+FROM nomnom
+WHERE cuisine = 'Japanese'
+  AND price = '$$';
+
+
+######## Challenge 5
+2.Your roommate Bevers can’t remember the exact name of a restaurant he went to but he knows it contains the word ‘noodle’ in it.
+Can you find it for him using a query?
+
+SELECT *
+FROM nomnom
+WHERE name LIKE '%noodle%'; 
+
+
+######## Challenge 6
+3. Some of the restaurants have not been inspected yet or are currently appealing their health grade score.
+Find the restaurants that have empty health values. Select all the columns.
+
+SELECT *
+FROM nomnom
+WHERE health IS NULL;
+

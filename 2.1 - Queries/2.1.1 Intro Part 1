@@ -95,4 +95,83 @@ WHERE year < 1985
    AND genre = 'horror';
 
 
+-- ######## Or
 
+-- used to combiine multiples conditions in WHERE 
+-- AND -> all conditions true
+-- OR --> if any conditions is trues 
+
+-- SELECT *FROM movies
+-- WHERE year > 2014
+--   OR genre = 'action';
+
+-- it combines both conditions, if any of them is true, it adds to the result 
+
+SELECT * FROM movies
+WHERE genre = 'romance'
+   OR genre = 'comedy';
+
+
+-- ############# ORDER BY 
+-- used with WHERE
+-- lists data in result to order it 
+
+-- sort the results 
+
+--SELECT *
+--FROM movies
+--ORDER BY name;
+
+--SELECT *
+--FROM movies
+--WHERE imdb_rating > 8
+--ORDER BY year DESC;
+
+-- there's also DESC/ASC
+
+SELECT name, year, imdb_rating 
+FROM movies
+ORDER BY imdb_rating DESC;
+
+-- ########## LIMIT
+
+-- specify the limited number of rows to analyze 
+-- it goes at the very end of the query
+
+-- Combining your knowledge of LIMIT and ORDER BY, write a query that returns the top 3 highest rated movies.
+SELECT * FROM movies 
+ORDER BY imdb_rating DESC
+LIMIT 3;
+
+-- ######### CASE 
+
+-- allow to create differente outputs in the select statement. (if-then logic)
+
+-- example
+-- if rating above 8, then fantastic
+-- if rating above 6, then poorly received
+-- else, avoid at all costs 
+
+--SELECT name,
+ --CASE
+--  WHEN imdb_rating > 8 THEN 'Fantastic'
+--  WHEN imdb_rating > 6 THEN 'Poorly Received'
+--  ELSE 'Avoid at All Costs'
+-- END AS 'Review'
+--FROM movies;
+
+SELECT name,
+ CASE
+  WHEN genre = 'romance' THEN 'Chill'
+  WHEN genre = 'comedy'  THEN 'Chill'
+  ELSE 'Intense'
+ END AS 'Mood'
+FROM movies;
+
+SELECT name,
+ CASE
+  WHEN genre = 'romance' OR genre = 'comedy' 
+   THEN 'Chill'
+  ELSE 'Intense'
+ END AS 'Mood'
+FROM movies;
