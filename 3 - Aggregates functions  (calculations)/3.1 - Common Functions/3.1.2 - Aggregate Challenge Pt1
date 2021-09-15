@@ -1,0 +1,44 @@
+Codeflix Introduction
+Welcome to Code Challenge: Aggregate Functions!
+
+A streaming video company, Codeflix, needs your help analyzing their user data. We’ve imported a portion of their dataset into the SQL workspace for this lesson.
+
+The database contains 3 tables:
+
+users contains the basic account details for each user (id,first_name, last_name, email, password)
+payments contains payment details for a 3 month period ( id, user_id, amount, status, pay_date)
+watch_history contains watch events for the users (id, user_id, watch_dat, watch_duration_in_minutes)
+
+
+
+Code Challenge 1
+-- Use COUNT() and a LIKE operator to determine the number of users that have an email ending in ‘.com’
+
+SELECT COUNT(*) AS count
+FROM users
+WHERE email LIKE '%.com';
+
+Code Challenge 2 
+--What are the most popular first names on Codeflix?
+
+--Use COUNT(), GROUP BY, and ORDER BY to create a list of first names and occurrences within the users table.
+
+--Order the data so that the most popular names are displayed first.
+
+SELECT first_name, COUNT(*) AS count
+FROM users
+GROUP BY first_name
+ORDER BY count DESC;
+
+
+Code Challenge 3 
+
+--The UX Research team wants to see a distribution of watch durations. They want the result to contain:
+
+--duration, which is the watch event duration, rounded to the closest minute
+--count, the number of watch events falling into this “bucket”
+
+SELECT ROUND (watch_duration_in_minutes) as 'duration', COUNT(*) AS 'count'
+FROM watch_history
+GROUP BY 1
+ORDER BY duration ASC;

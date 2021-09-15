@@ -1,0 +1,28 @@
+Code Challenge 7 
+
+--Which days in this period did Codeflix collect the most money?
+--Your result should have two columns, pay_date and total amount, sorted by the latter descending.
+--This should only include successful payments (status = 'paid').
+
+SELECT pay_date AS 'day',
+   SUM(amount) AS 'total'
+FROM payments
+WHERE status = 'paid'
+GROUP BY day
+ORDER BY total DESC;
+
+Code Challenge 8
+
+--When users successfully pay Codeflix (status = 'paid'), what is the average payment amount?
+SELECT AVG(amount) AS average
+FROM payments
+WHERE status = 'paid'; 
+
+Code Challenge 9 
+
+-- Of all the events in the watch_history table, what is the duration of the longest individual watch event? What is the duration of the shortest?
+
+--  Use one query and rename the results to max and min.
+SELECT MAX(watch_duration_in_minutes), MIN(watch_duration_in_minutes)
+FROM watch_history;
+
