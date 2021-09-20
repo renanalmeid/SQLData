@@ -1,0 +1,39 @@
+######### Code Challenge 1 
+
+-- tables used: plans + premium_users
+
+--The column membership_plan_id in premium_users 
+should match the column id in plans.
+
+--Join plans and premium_users and select:
+
+--user_id from premium_users
+--description from plans
+
+SELECT premium_users.user_id,
+   plans.description
+FROM premium_users
+JOIN plans
+  ON plans.id = premium_users.membership_plan_id;
+
+######### Code Challenge 2
+ --The column song_id in plays should match the column id in songs.
+
+--Join plays to songs and select:
+
+--user_id from plays
+--play_date from plays
+--title from songs
+
+SELECT plays.user_id,
+   plays.play_date,
+   songs.title
+FROM plays
+JOIN songs
+  ON plays.song_id = songs.id;
+
+
+######### Code Challenge 3
+
+
+######### Code Challenge 4
