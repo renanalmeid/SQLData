@@ -1,0 +1,105 @@
+Introduction to Subqueries
+At this point in our SQL journey we know we can query a database to retrieve desired results. 
+
+However, what happens when we query a database but we really only need a subset of the results returned? How is this situation handled when the subset of data needed spans across multiple tables?
+
+One option that may immediately come to mind could be the use of a join. 
+However, in this lesson, we’ll explore the use something called a subquery that give us the same functionality as a join, but with much more readability.
+
+SELECT *
+FROM band_students
+LIMIT 10;
+ 
+SELECT *
+FROM drama_students
+LIMIT 10;
+
+######## Subqueries
+
+Internal query nested inside of a query, such as select, insert, update or delete. (it gets exectured before the external statement is run)
+For example, if we had two tables listing students in two different clubs, book_club and art_club, we could find out which students are in both tables by using a join such as:
+
+SELECT id, first_name, last_name
+FROM book_club
+JOIN art_club
+  ON book_club.id = art_club.id;
+
+However, a subquery can be used to achieve the same result and is more readable:
+
+SELECT id, first_name, last_name
+FROM book_club
+WHERE id IN (
+   SELECT id 
+   FROM art_club);
+In this statement, the subquery SELECT statement would be executed first, resulting in a list of student ids from the art_club table.
+ Then, the outer query would run and select the student ids from book_club table which also appear in the subquery results.
+
+ 
+Complete the subquery to find students taking both band and drama.
+
+SELECT first_name, last_name
+FROM band_students
+WHERE id IN (
+   SELECT id 
+   FROM drama_students);
+
+---############## Insert, update, delete
+
+--Previously, we mentioned subqueries can be placed inside of SELECT, INSERT, UPDATE, or DELETE statements.
+
+-- A memo was recently released stating that 9th grade students are unable to take both drama and band concurrently. 
+--The students currently enrolled in both classes will be dropped from drama and remain in band.
+--Write a DELETE query that will remove 9th grade students enrolled in both band and drama from the drama_students table.
+
+DELETE FROM band_students
+WHERE id in(
+  SELECT id
+  FROM drama_students
+  WHERE grade =9
+);
+
+-- ############# Comparison Operators
+
+--Subqueries have the unique ability to take the place of expressions in SQL queries. As such, one way of using subqueries in SQL statements is with comparison operators.
+
+--Emlynne Torritti (id 20), has decided to drop band and join drama. She wants to know how many other students in her grade level are already enrolled in drama.
+
+--Use a subquery to find the students enrolled in drama that are in the same grade as Emlynne.
+
+
+SELECT * 
+FROM drama_students
+WHERE grade = (
+   SELECT grade
+   FROM band_students
+   WHERE id = 20);
+
+
+-- ########### In and Not In Clauses
+
+--When an IN clause is used, results retrieved from the external query must appear within the subquery results.
+--Similarly, when a NOT IN clause is used, results retrieved from the external query must not appear within the subquery results.
+
+--Write a query that gives the first and last names of students enrolled in band but not in drama.
+
+SELECT first_name, last_name
+FROM band_students
+WHERE id NOT IN (
+   SELECT id
+   FROM drama_students);
+
+-- ############### Exists and Not Exists
+
+-- However, when the inner query is included using an EXISTS or NOT EXISTS clause, we are only checking for the presence of rows meeting the specified criteria, so the inner query only returns a true or false.
+
+--If we compare this functionality in terms of efficiency, EXISTS/NOT EXISTS are usually more efficient than IN/NOT IN clauses;
+
+--is is because the IN/NOT IN clause has to return all rows meeting the specific criteria whereas the EXISTS/NOT EXISTS only needs to find the presence of one row to determine if a true or false value needs to be returned.
+
+--Write a query to find out which grade levels are represented in both band and drama.
+SELECT grade
+FROM band_students
+WHERE EXISTS (
+   SELECT grade
+   FROM drama_students);
+

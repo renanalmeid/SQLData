@@ -1,0 +1,53 @@
+Lyft Trip Data
+Let’s practice what we learned about joins by combining rows from different tables.
+
+Suppose you are a Data Analyst at Lyft, a ride-sharing platform. For a project, you were given three tables:
+
+trips: trips information
+riders: user data
+cars: autonomous cars
+
+--  ######## Write queries
+
+SELECT * FROM trips;
+ 
+SELECT * FROM riders;
+ 
+SELECT * FROM cars;
+ 
+
+ -- cross 
+SELECT riders.first,
+   riders.last,
+   cars.model
+FROM riders, cars;
+
+
+-- Find the columns to join between trips and riders and combine the two tables using a LEFT JOIN.
+
+SELECT *
+FROM trips
+LEFT JOIN riders 
+  ON trips.rider_id = riders.id;
+
+  --Suppose we want to create a link between the trips and the cars used during those trips.
+
+--Find the columns to join on and combine the trips and cars table using an INNER JOIN.
+
+SELECT *
+FROM trips
+INNER JOIN cars
+  ON trips.car_id = cars.id;
+
+-- The new riders data are in! There are three new users this month. Stack the riders table on top of the new table named riders2.
+
+SELECT *
+FROM riders
+UNION
+SELECT *
+FROM riders2;
+
+-- ####  Bonues; queries and Aggregates
+
+
+

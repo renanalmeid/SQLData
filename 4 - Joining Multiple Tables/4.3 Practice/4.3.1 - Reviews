@@ -1,0 +1,51 @@
+Welp
+To practice what you’ve learned about joining multiple tables, you are going to use data from an exciting app called Welp. Users love Welp because it allows them to leave reviews of businesses in their city and see how other people reviewed the businesses.
+
+For this project, you will be working with two tables:
+
+places
+reviews
+
+SELECT * 
+FROM places;
+ 
+SELECT * 
+FROM reviews;
+
+--If each dollar sign ($) represents $10, how could you find all places that cost $20 or less?
+
+
+SELECT *
+FROM places
+WHERE price_point = '$'
+  OR price_point = '$$';
+
+  -- #### Joining Tbales
+
+-- Write a query to do an INNER JOIN on the two tables to show all reviews for restaurants that have at least one review.
+
+SELECT * 
+FROM places 
+INNER JOIN reviews 
+   ON places.id = reviews.place_id;
+
+-- Modify your previous query to select only the most important columns in order to display a log of reviews by selecting the following:
+
+--From the places table: name, average_rating
+--From the reviews table: username, rating, review_date, note
+
+SELECT places.name, places.average_rating, reviews.username, reviews.rating, reviews.review_date, reviews.note
+FROM places
+INNER JOIN reviews
+  ON places.id = reviews.place_id;
+
+
+
+--Now write a query to do a LEFT JOIN on the tables, selecting the same columns as the previous question.
+
+SELECT places.name, places.average_rating, reviews.username, reviews.rating, reviews.review_date, reviews.note
+FROM places 
+LEFT JOIN reviews 
+   ON places.id = reviews.place_id;
+
+   
