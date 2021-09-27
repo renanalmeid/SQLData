@@ -1,0 +1,91 @@
+####################### Part 3
+
+--- Ex1
+First, add a column that counts the total number of rows in funnels.
+
+Alias this column as ‘num_browse’.
+
+This is the number of users in the “browse” step of the funnel.
+
+WITH funnels AS (
+  SELECT DISTINCT b.browse_date,
+     b.user_id,
+     c.user_id IS NOT NULL AS 'is_checkout',
+     p.user_id IS NOT NULL AS 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase AS 'p'
+    ON p.user_id = c.user_id)
+SELECT COUNT(*) AS 'num_browse'
+FROM funnels;
+
+
+--- Ex2
+Second, add another column that sums the is_checkout in funnels.
+
+Alias this column as ‘num_checkout’.
+
+This is the number of users in the “checkout” step of the funnel.
+
+WITH funnels AS (
+  SELECT DISTINCT b.browse_date,
+     b.user_id,
+     c.user_id IS NOT NULL AS 'is_checkout',
+     p.user_id IS NOT NULL AS 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase AS 'p'
+    ON p.user_id = c.user_id)
+SELECT COUNT(*) AS 'num_browse', 
+  SUM(is_checkout) AS 'num_checkout'
+FROM funnels;
+
+
+---- Ex3
+WITH funnels AS (
+  SELECT DISTINCT b.browse_date,
+     b.user_id,
+     c.user_id IS NOT NULL AS 'is_checkout',
+     p.user_id IS NOT NULL AS 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase AS 'p'
+    ON p.user_id = c.user_id)
+SELECT COUNT(*) AS 'num_browse', 
+  SUM(is_checkout) AS 'num_checkout', 
+  SUM(is_purchase) AS 'num_purchase', 
+  1.0 * SUM(is_checkout) / COUNT(user_id) AS 'browse_to_checkout',
+  1.0 * SUM(is_purchase) / SUM(is_checkout) AS 'checkout_to_purchase'
+FROM funnels;
+
+
+
+####################### Part 4
+
+
+Then, use GROUP BY so that we calculate num_browse, num_checkout, and num_purchase for each browse_date.
+
+Also be sure to ORDER BY browse_date.
+
+WITH funnels AS (
+  SELECT DISTINCT b.browse_date,
+     b.user_id,
+     c.user_id IS NOT NULL AS 'is_checkout',
+     p.user_id IS NOT NULL AS 'is_purchase'
+  FROM browse AS 'b'
+  LEFT JOIN checkout AS 'c'
+    ON c.user_id = b.user_id
+  LEFT JOIN purchase AS 'p'
+    ON p.user_id = c.user_id)
+SELECT browse_date,
+   COUNT(*) AS 'num_browse',
+   SUM(is_checkout) AS 'num_checkout',
+   SUM(is_purchase) AS 'num_purchase',
+   1.0 * SUM(is_checkout) / COUNT(user_id) AS 'browse_to_checkout',
+   1.0 * SUM(is_purchase) / SUM(is_checkout) AS 'checkout_to_purchase'
+FROM funnels
+GROUP BY browse_date
+ORDER BY browse_date;

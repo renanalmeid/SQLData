@@ -1,0 +1,72 @@
+############## Build a Funnel from Multiple Tables 1
+Scenario: Mattresses and More sells bedding essentials from their e-commerce store. Their purchase funnel is:
+
+The user browses products and adds them to their cart
+The user proceeds to the checkout page
+The user enters credit card information and makes a purchase
+Three steps! Simple and easy.
+
+As a sales analyst, you want to examine data from the shopping days before Christmas. As Christmas approaches, you suspect that customers become more likely to purchase items in their cart (i.e., they move from window shopping to buying presents).
+
+The data for Mattresses and More is spread across several tables:
+
+browse - each row in this table represents an item that a user has added to his shopping cart
+checkout - each row in this table represents an item in a cart that has been checked out
+purchase - each row in this table represents an item that has been purchased
+
+##############Build a Funnel from Multiple Tables 2
+
+First, we want to combine the information from the three tables (browse, checkout, purchase) into one table with the following schema:
+
+browser_date	user_id	is_checkout	is_purchase
+2017-12-20	6a7617321513	True	False
+2017-12-20	022d871cdcde	False	False
+
+If the user has any entries in checkout, then is_checkout will be True.
+If the user has any entries in purchase, then is_purchase will be True.
+If we use an INNER JOIN to create this table, we’ll lose information from any customer who does not have a row in the checkout or purchase table.
+
+Therefore, we’ll need to use a series of LEFT JOIN commands.
+
+-- EXERCICIO
+Start by selecting all rows (*) from the LEFT JOIN of:
+
+browse (aliased as b)
+checkout (aliased as c)
+purchase (aliased as p)
+Be sure to use this order to make sure that we get all of the rows.
+
+LIMIT your results to the first 50 so that it loads quickly.
+
+--------
+
+SELECT *
+FROM browse AS 'b'
+LEFT JOIN checkout AS 'c'
+  ON c.user_id = b.user_id
+LEFT JOIN purchase AS 'p'
+  ON p.user_id = c.user_id
+LIMIT 50;
+
+
+-- Exercicio 2
+But we don’t want all of these columns in the result!
+
+Instead of selecting all columns using *, let’s select these four:
+
+DISTINCT b.browse_date
+b.user_id
+c.user_id IS NOT NULL AS 'is_checkout'
+p.user_id IS NOT NULL AS 'is_purchase'
+Edit your query so that you select these columns.
+ ----
+ SELECT DISTINCT b.browse_date,
+   b.user_id,
+   c.user_id IS NOT NULL AS 'is_checkout',
+   p.user_id IS NOT NULL AS 'is_purchase'
+FROM browse AS 'b'
+LEFT JOIN checkout 'c'
+  ON c.user_id = b.user_id
+LEFT JOIN purchase 'p'
+  ON p.user_id = c.user_id
+LIMIT 50;
