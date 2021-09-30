@@ -1,0 +1,85 @@
+-- ###### Part 1
+-- We just learned how to attribute a user’s first and last touches. What if we want to attribute the first and last touches for ALL users? 
+--This is where SQL comes in handy — with one query we can find all first- or last-touch attributions (the first and last versions are nearly identical).
+--We can save this query to run it later, or modify it for a subset of users. Let’s learn the query…
+--In order to get first-touch attributions, we need to find the first time that a user interacted with our website. 
+--We do this by using a GROUP BY. Let’s call this table first_touch:
+SELECT user_id,
+   MIN(timestamp) AS 'first_touch_at'
+FROM page_visits
+GROUP BY user_id;
+
+--This tells us the first time that each user visited our site, but does not tell us how they got to our site — the query results have no UTM parameters! We’ll see how do get those in the next exercise.
+
+-- Example 1
+--Find all last touches. Your query will look similar to the first_touch query above.
+SELECT user_id, MAX(timestamp) AS 'last_touch_at'
+FROM page_visits
+
+--Make sure June’s last touch at 08:13:01 is in the data.
+--Add a WHERE clause for user_id = 10069 to your existing query. 
+WHERE user_id = 10069
+GROUP BY 1;
+
+-- ########### Part 2
+
+To get the UTM parameters, we’ll need to JOIN these results back with the original table.
+
+--We’ll join tables first_touch, akaft, and page_visits, aka pv, on user_id and timestamp.
+
+ft.user_id = pv.user_id
+AND ft.first_touch_at = pv.timestamp
+
+-- Remember that first_touch_at is the earliest timestamp for each user. Here’s the simplified query:
+
+WITH first_touch AS (
+      /* ... */
+    )
+SELECT *
+FROM first_touch AS 'ft'
+JOIN page_visits AS 'pv'
+  ON ft.user_id = pv.user_id
+  AND ft.first_touch_at = pv.timestamp;
+
+-- Now fill in the WITH clause using the first_touch query from the previous exercise. We’ll also specify the columns to SELECT.
+
+WITH first_touch AS (
+   SELECT user_id,
+      MIN(timestamp) AS 'first_touch_at'
+   FROM page_visits
+   GROUP BY user_id)
+SELECT ft.user_id,
+  ft.first_touch_at,
+  pv.utm_source
+FROM first_touch AS 'ft'
+JOIN page_visits AS 'pv'
+  ON ft.user_id = pv.user_id
+  AND ft.first_touch_at = pv.timestamp;
+
+--- ################# Part 3
+
+--We can easily modify the first-touch attribution query to get last-touch attribution: use MAX(timestamp) instead of MIN(timestamp).
+
+--For reference, the first-touch attribution query is shown below.
+
+-- Example 3 
+--write the LAST-touch attribution query and run it.
+
+WITH last_touch AS (
+    SELECT user_id,
+       MAX(timestamp) AS 'last_touch_at'
+    FROM page_visits
+    GROUP BY user_id)
+SELECT lt.user_id,
+   lt.last_touch_at,
+   pv.utm_source
+FROM last_touch AS 'lt'
+JOIN page_visits AS 'pv'
+   ON lt.user_id = pv.user_id
+   AND lt.last_touch_at = pv.timestamp
+
+--Make sure June’s last touch at 08:13:01 is still there!
+
+--Add a WHERE clause for user_id = 10069 to your existing query.
+WHERE lt.user_id = 10069;
+

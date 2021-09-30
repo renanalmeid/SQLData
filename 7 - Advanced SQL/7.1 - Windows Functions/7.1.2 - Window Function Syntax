@@ -1,0 +1,53 @@
+Window Function Syntax
+In the previous exercise, you ran a window function to see a ‘running total’.
+
+Let’s break down the query into smaller parts:
+
+SELECT 
+   month,
+   change_in_followers,
+   SUM(change_in_followers) OVER (
+      ORDER BY month
+   ) AS 'running_total'
+FROM
+   social_media
+WHERE
+   username = 'instagram';
+SELECT month, change_in_followers: Same as usual, selecting the columns.
+SUM(change_in_followers): Here is our aggregate function to find the SUM of our chosen column.
+OVER: This is the clause that designates SUM as a window function.
+ORDER BY month: Here we declare what we would like our window function to do.
+This window function is taking the sum of money raised each month.
+So for each month, the window function adds the current month’s change_in_followers to our running total.
+Then name the running total column 'running_total'.
+And lastly, this is all coming from table social_media where the username is instagram.
+
+--1) Change the name of the window function column to be running_avg instead of running_total.
+
+
+SELECT month,
+  change_in_followers,
+  AVG(change_in_followers) OVER (
+    ORDER BY month
+  ) AS running_avg
+FROM social_media
+WHERE username = 'instagram';
+
+--2) Let’s now implement a more complex window function that utilizes SUM, COUNT and AVG.
+SELECT 
+   month,
+   change_in_followers,
+   SUM(change_in_followers) OVER (
+      ORDER BY month
+   ) AS 'running_total',
+   AVG(change_in_followers) OVER (
+      ORDER BY month
+   ) AS 'running_avg',
+   COUNT(change_in_followers) OVER (
+      ORDER BY month
+   ) AS 'running_count'
+FROM
+   social_media
+WHERE
+   username = 'instagram';
+   
