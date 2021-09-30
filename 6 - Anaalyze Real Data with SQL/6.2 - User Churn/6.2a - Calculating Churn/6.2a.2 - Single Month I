@@ -1,0 +1,52 @@
+-- ############# Single MonthI 
+
+-- Typically, there will be data in a subscriptions table available in the following format:
+
+
+-- Examples : numerator
+
+SELECT COUNT(*)
+FROM subscriptions
+WHERE subscription_start < '2016-12-01'
+  AND (
+    subscription_end
+    BETWEEN '2016-12-01' AND '2016-12-31'
+  );
+
+
+  -- Example: denominator
+SELECT COUNT(*)
+FROM subscriptions
+WHERE subscription_start < '2016-12-01'
+  AND (
+    (subscription_end >= '2016-12-01')
+    OR (subscription_end IS NULL)
+  );
+
+
+--When dividing, we need to be sure to multiply by 1.0 to cast the result as a float:
+
+SELECT 1.0 * 
+(
+  SELECT COUNT(*)
+  FROM subscriptions
+  WHERE subscription_start < '2016-12-01'
+  AND (
+    subscription_end
+    BETWEEN '2016-12-01'
+    AND '2016-12-31'
+  )
+) / (
+  SELECT COUNT(*) 
+  FROM subscriptions 
+  WHERE subscription_start < '2016-12-01'
+  AND (
+    (subscription_end >= '2016-12-01')
+    OR (subscription_end IS NULL)
+  )
+) 
+AS result;
+
+
+
+----------- EXERCICIO

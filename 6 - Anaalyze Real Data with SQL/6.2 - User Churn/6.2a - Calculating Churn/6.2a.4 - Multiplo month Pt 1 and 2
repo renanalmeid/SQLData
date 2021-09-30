@@ -1,0 +1,65 @@
+###### Part 1: CREATE MONTH TEMPORATRY TABLES
+
+Multiple Month: Create Months Temporary Table
+Our single month calculation is now in a form that we can extend to a multiple month result. But first, we need months!
+
+Some SQL table schemes will contain a prebuilt table of months. Ours doesn’t, so we’ll need to build it using UNION. We’ll need the first and last day of each month.
+We will be using the months as a temporary table (using WITH) in the churn calculation.
+
+Create the months temporary table using WITH and SELECT everything from it so that you can see the structure.
+
+WITH months as
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+)
+SELECT *
+FROM months;
+
+
+###### Part 2:Cross Join Months and Users
+
+Now that we have a table of months, we will join it to the subscriptions table. 
+This will result in a table containing every combination of month and subscription.
+
+The workspace contains the months temporary table from the previous exercise.
+
+Create a cross_join temporary table that is a CROSS JOIN of subscriptions and months.
+
+WITH months AS
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+),
+cross_join AS
+(SELECT *
+FROM subscriptions
+CROSS JOIN months)
+SELECT *
+FROM cross_join
+LIMIT 100;
+
+Add an is_canceled column to the status temporary table. Ensure that it is equal to 1 in months containing the subscription_end and 0 otherwise.
+
+Derive this column using a CASE WHEN statement. You can use the BETWEEN function to check if a date falls between two others.
+
+
+
+
+
