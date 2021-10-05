@@ -1,0 +1,119 @@
+################ Code Challenge 8
+The math_students and english_students tables have the following columns:
+
+student_id - the student id
+grade - the grade level of the student
+first_name - the student’s first name
+last_name - the student’s last name
+
+-- Using a subquery, find all students enrolled in english class who are not also enrolled in math class.
+
+SELECT *
+FROM english_students
+WHERE student_id NOT IN(
+  SELECT student_id
+  FROM math_students
+);
+
+--Using a subquery, find out what grade levels are represented in both the math and english classes.
+
+SELECT grade
+FROM math_students
+WHERE EXISTS(
+  SELECT grade
+  FROM english_students
+);
+
+#################### Code Challenge 9
+The box_office table has the following columns:
+
+id - the id of each row
+title - the title of the movie
+week - the week following the film’s release
+gross - the gross for that week
+to_date_gross - the total gross of the movie up to each week
+
+-- Using a window function with PARTITION BY, get the total change in gross for each movie up to the current week and display it next to the current week column along with the title, week, and gross columns.
+
+SELECT title, week, gross, 
+  SUM(gross) OVER (
+    PARTITION BY title 
+    ORDER BY week
+  ) AS 'running_total_gross'
+FROM box_office;
+
+
+
+###################Code Challenge 10
+-- Write a query using a window function with ROW_NUMBER and ORDER BY to see where each row falls in the amount of gross.
+
+SELECT ROW_NUMBER()
+OVER (
+  ORDER BY gross
+) AS 'row_num', title, week, gross
+FROM box_office;
+
+
+####################Code Challenge 11
+The orders table has the following columns:
+
+id - the order id
+product_id - the product id
+price - the price of the individual product item
+quantity - the quantity of items in the order
+
+-- Given an orders table, calculate the price times quantity of each order. Include the id and product_id columns in the result.
+
+SELECT id, product_id, price * quantity
+FROM orders;
+
+
+###################Code Challenge 12
+The weather table has the following columns:
+
+id - the id of each entry
+date - the date of each entry
+high - the high temperature of the date, in Fahrenheit
+low - the low temperature of the date, in Fahrenheit
+
+--Utilize CAST to calculate the average of the low and high temperatures for each date such that the result is of type REAL.
+
+--Select the date column and alias this result column as ‘average’.
+
+SELECT date, (CAST(high AS 'REAL') + 
+  CAST(low AS 'REAL')) / 2.0 AS 'average'
+FROM weather;
+
+#################### Code Challenge 13
+The purchases table has the following columns:
+
+purchase_id - the id of the purchase
+purchase_date - the date of the purchase
+
+--After a purchase is created, it can be returned within 7 days for a full refund.
+
+--Using modifiers, get the date of each purchase offset by 7 days in the future.
+
+SELECT purchase_id, DATE(purchase_date, '+7 days')
+FROM purchases;
+
+-- Get the hour that each purchase was made.Which hour had the most purchases made?
+SELECT STRFTIME('%H', purchase_date)
+FROM purchases;
+
+-- or
+SELECT strftime('%H',purchase_date) 
+     AS 'Hour',
+   COUNT(strftime('%H',purchase_date)) 
+     AS 'Purchases'
+FROM purchases 
+GROUP BY 1 
+ORDER BY 2 desc;
+
+###################Code Challenge 14
+--Using string formatting and substitutions, get the month and day for each purchase in the form ‘mm-dd’.
+
+--Give this new column a name of ‘reformatted’.
+
+SELECT STRFTIME('%m-%d', purchase_date) AS 'reformatted'
+FROM purchases;

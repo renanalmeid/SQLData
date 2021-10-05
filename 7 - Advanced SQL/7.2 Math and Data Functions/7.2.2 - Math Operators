@@ -1,0 +1,18 @@
+Math Operators
+SQL supports math operators to perform calculations.
+
+The + operator is for addition and returns the sum of two values.
+The - operator is for subtraction and returns the difference between two values.
+The / operator is for division and returns the quotient after dividing one value by another value. If the two values are of type INTEGER, then the result will also be an INTEGER rounded down. If one or more of the values are of type REAL, then the result will be REAL.
+The * operator is for multiplication and returns the product of two numbers.
+The % operator, or modulo, returns the remainder after division.
+SELECT (1 + 5);  -- 6
+SELECT (10 - 6); -- 4
+SELECT (4 / 2);  -- 2
+SELECT (15 * 3); -- 45
+SELECT (10 % 3); -- 1
+
+-- From the bakery table, compute the total cost (price times quantity) of each order.
+
+SELECT (price * quantity)
+FROM bakery;

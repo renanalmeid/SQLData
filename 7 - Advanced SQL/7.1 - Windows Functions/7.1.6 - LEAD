@@ -1,0 +1,59 @@
+############## LEAD
+In the previous exercise we used LAG to examine how an artist’s weekly streams and chart position changed. 
+Your final query should have looked something like this:
+
+SELECT
+   artist,
+   week,
+   streams_millions,
+   streams_millions - LAG(streams_millions, 1, streams_millions) OVER ( 
+      PARTITION BY artist
+      ORDER BY week 
+   ) AS 'streams_millions_change',
+   chart_position,
+   LAG(chart_position, 1, chart_position) OVER ( 
+      PARTITION BY artist
+      ORDER BY week 
+) - chart_position AS 'chart_position_change'
+FROM
+   streams
+WHERE 
+   artist = 'Lady Gaga';
+
+
+We are going to modify this to use LEAD, which looks to future rows, instead of LAG, which looks to previous rows.
+
+--Because LEAD looks to future rows, we need to flip how we subtract in order to find the streams_millions_change:
+SELECT
+   artist,
+   week,
+   streams_millions,
+   LEAD(streams_millions, 1) OVER (
+      PARTITION BY artist
+      ORDER BY week
+   ) - streams_millions AS 'streams_millions_change'
+FROM
+   streams;
+
+-- We will subtract the current row’s streams_millions from the next row’s streams_millions in order to see an accurate reflection of how the number of streams has changed.
+--Positive means they increased streams while negative means they decreased.
+-- If we did not flip our subtraction here, we would get negative values for an increase in streams which is not what we want.
+
+
+
+-- Now modify your query to make it return the chart_position and --chart_position_change as well, like we did for LAG.
+SELECT
+   artist,
+   week,
+   streams_millions,
+   LEAD(streams_millions, 1) OVER (
+      PARTITION BY artist
+      ORDER BY week
+   ) - streams_millions AS 'streams_millions_change', 
+   chart_position,
+   chart_position - LEAD(chart_position, 1) OVER (
+     PARTITION BY artist
+     ORDER BY week
+   ) AS 'chart_position_change'
+FROM
+   streams;

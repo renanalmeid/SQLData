@@ -1,0 +1,21 @@
+############## NTILE
+The last window function we are going to learn is called NTILE and this can be used to find quartiles, 
+quintiles or whatever ntile your data-driven heart desires.
+
+NTILE allows you to break your data into roughly equal groups, based on what ntile you’d like:
+ so if you were using quartile, it would divide the data into four groups (quarters).
+
+When using NTILE you are required to provide a bucket, which represents the number 
+of groups you’d like your data broken down into: NTILE(4) would be four “buckets” which would represent quartiles.
+
+SELECT 
+   NTILE(4) OVER (
+     PARTITION BY week
+      ORDER BY streams_millions DESC
+   ) AS 'weekly_streams_group', 
+   artist, 
+   week,
+   streams_millions
+FROM
+   streams;
+

@@ -1,0 +1,68 @@
+##################LAG
+Now that we understand how to pull the first or last value from our dataset and display it alongside our query results, let’s see how to fetch data from other parts of our results.
+Window functions can use LAG or LEAD in order to access information from a row at a specified offset which comes before (LAG) or after (LEAD) the current row.
+
+This means that by using LAG or LEAD you can access any row before or after the current row, which can be very useful in calculating the difference between the current and adjacent row. We will first focus on using LAG.
+
+
+--- Select all
+SELECT *
+FROM streams;
+
+--Let’s look at a window function that uses LAG. 
+--We will look at the artist’s current number of streams and their streams from the previous week.
+
+SELECT
+   artist,
+   week,
+   streams_millions,
+   LAG(streams_millions, 1, 0) OVER (
+      ORDER BY week 
+   ) previous_week_streams 
+FROM
+   streams 
+WHERE
+   artist = 'Lady Gaga';
+
+
+LAG takes up to three arguments:
+
+column (required)
+offset (optional, default 1 row offset)
+default (optional, what to replace default null values with)
+
+-- Displaying the previous row value in each row can be useful, 
+--but for our purposes let’s change our LAG function to instead show the change in streams for Lady Gaga per week
+
+SELECT
+   artist,
+   week,
+   streams_millions,
+   streams_millions - LAG(streams_millions, 1, streams_millions) OVER ( 
+      ORDER BY week 
+   ) streams_millions_change
+FROM
+   streams 
+WHERE
+   artist = 'Lady Gaga';
+
+
+-- Build upon our current query to use PARTITION BY to show the change in streams for “Lady Gaga” 
+-- as well as the change in chart position.
+
+SELECT
+   artist,
+   week,
+   streams_millions,
+   streams_millions - LAG(streams_millions, 1, streams_millions) OVER ( 
+      PARTITION BY artist
+      ORDER BY week 
+   ) AS 'streams_millions_change',
+   chart_position,
+   LAG(chart_position, 1, chart_position) OVER ( 
+      PARTITION BY artist
+      ORDER BY week 
+) - chart_position AS 'chart_position_change'
+FROM
+   streams
+WHERE artist = 'Lady Gaga';

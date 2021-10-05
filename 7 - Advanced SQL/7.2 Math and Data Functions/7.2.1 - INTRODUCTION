@@ -1,0 +1,29 @@
+##########Introduction
+In this lesson, we will introduce some math operators and functions to perform calculations on and convert values, along with a few date functions to transform, format, and extract information from dates.
+
+Throughout the lesson, you will be working with the following tables containing mock data:
+
+bakery: table storing information about orders made at a local bakery
+guesses: table storing the values of a guessing game where the guessed value closest to a number wins
+Here’s a quick preview of the concepts that will be covered in these next six exercises:
+
+Math operators:
+
++ addition
+- subtraction
+\ division
+* multiplication
+% modulo (returns the remainder)
+Math functions:
+
+ABS(): returns the absolute value of the input expression
+CAST(): converts an expression into another data type
+Date and time functions:
+
+DATETIME(): returns the date and time of a time string
+DATE(): returns the date portion of a time string
+TIME(): returns the time portion of a time string
+STRFTIME(): returns a formatted date
+
+
+--- Example

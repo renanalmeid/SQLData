@@ -1,0 +1,40 @@
+    Date and Time Functions II
+We can provide additional arguments, called modifiers, to date functions in addition to the time string. Modifiers are applied from left to right as they are listed in the function, so order matters.
+
+The syntax is as follows:
+
+SELECT DATETIME(timestring, modifier1, modifier2, ...);
+In the previous exercise, you were introduced to the modifier 'localtime', which converts the time string from UTC (Coordinated Universal Time) to the local time zone.
+
+The following modifiers can be used to shift the date backwards to a specified part of the date.
+
+start of year: shifts the date to the beginning of the current year.
+start of month: shifts the date to the beginning of the current month.
+start of day: shifts the date to the beginning of the current day.
+For example, the following returns the beginning of September 2005.
+
+SELECT DATE('2005-09-15', 'start of month');
+The following modifiers add a specified amount to the date and time of the time string.
+
+'+-N years': offsets the year
+'+-N months': offsets the month
+'+-N days': offsets the day
+'+-N hours': offsets the hour
+'+-N minutes': offsets the minute
+'+-N seconds': offsets the second
+After each offset is applied, the result date and time is normalized so that it will always be valid.
+
+For example, we can have the following statement.
+
+SELECT DATETIME('2020-02-10', 'start of month', '-1 day', '+7 hours');
+First, it will apply the modifier 'start of month' which will shift to the beginning of the month, '2020-02-01 00:00:00'. It will include the time portion because we are using the DATETIME() function.
+
+Then, it will apply the modifier '-1 day' which will offset the day by -1, resulting in '2020-01-31 00:00:00'.
+
+Finally, it will apply the modifier '+7 hours', which will add 7 hours to the time, giving the final result of '2020-01-31 07:00:00'.
+
+-- Example 
+
+SELECT DATETIME(order_date, 'start of day', '+2 days', '+7 hours')
+FROM bakery;
+

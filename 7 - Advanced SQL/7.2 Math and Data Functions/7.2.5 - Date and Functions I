@@ -1,0 +1,32 @@
+Date and Time Functions I
+SQL provides functions to work with dates.
+
+In SQL, dates are typically written in one of the following formats:
+
+Date: YYYY-MM-DD
+Datetime or Timestamp: YYYY-MM-DD hh:mm:ss
+These strings that represent dates are also known as time strings.
+
+The DATETIME() function will return the entire time string which includes the date and time portions.
+
+SELECT DATETIME('2020-09-01 17:38:22');
+To obtain the current date and time, you can provide the string 'now' to the function, which returns the date and time in UTC.
+
+SELECT DATETIME('now');
+To obtain the date and time converted to your local timezone, you can provide a modifier localtime.
+
+SELECT DATETIME('now', 'localtime');
+The DATE() function allows us to extract just the date portion of a time string, which consists of the year, month and day.
+
+SELECT DATE('2020-09-01 17:38:22'); -- 2020-09-01
+The TIME() function allows us to extract just the time portion of a time string, which consists of the hour, minute and second.
+
+SELECT TIME('2020-09-01 17:38:22'); -- 17:38:22
+
+
+-- example
+
+-- Write a query to select just the dates for each order’s order_date column from the bakery table.
+
+SELECT DATE(order_date)
+FROM bakery;

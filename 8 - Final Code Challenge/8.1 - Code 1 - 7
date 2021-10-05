@@ -1,0 +1,134 @@
+################ Code 1
+--Select the title, author, and average_rating of each book with an average_rating between 3.5 and 4.5.
+SELECT title, author, average_rating FROM books
+WHERE average_rating
+BETWEEN 3.5 AND 4.5;
+
+--Select all the unique authors from the table.
+
+SELECT DISTINCT author
+FROM books;
+
+
+############# Code 2
+Given the final scores of several NBA games, use CASE to return the results for each game:
+
+If home team won, return ‘HOME WIN’.
+If away team won, return ‘AWAY WIN’.
+Select the id column and the CASE result.
+
+SELECT id, 
+  CASE
+    WHEN home_points > away_points 
+      THEN 'HOME WIN'
+    ELSE 'AWAY WIN'
+  END
+FROM nba_matches;
+
+############## Code 3
+The apps table has the following columns:
+
+id - the app id
+name - the app name
+genre - the genre of the app
+rating - the app rating
+reviews - the number of reviews
+
+--Find the number of apps by genre.
+SELECT genre, COUNT(id)
+FROM apps
+GROUP BY 1;
+
+
+--Get the total number of reviews of all apps by genre.
+
+--Limit the results for genres where the total number of app reviews is over 30 million.
+
+
+
+################ Code Challenge 4
+The apps table has the following columns:
+
+id - the app id
+name - the app name
+genre - the genre of the app
+rating - the app rating
+reviews - the number of reviews
+
+--Select the name, genre, and rating of apps in descending order of their rating, and limit the result to 20 rows.
+
+SELECT name, genre, rating
+FROM apps
+ORDER BY rating DESC
+LIMIT 20;
+
+##################### Code 5
+
+--Find the lowest and highest rating for all apps using two different queries.
+
+SELECT MIN(rating)
+FROM apps;
+ 
+SELECT MAX(rating)
+FROM apps;
+
+-- Get the average rating of all apps, rounded to 2 decimal places. Alias the result column as ‘average rating’.
+SELECT ROUND(AVG(rating), 2) AS 'average rating'
+FROM apps;
+
+
+####################### Code Challenge 6
+The projects table has the following columns:
+
+id - the project id
+employee_id - the id of the employee assigned to this project
+The employees table has the following columns:
+
+id - the id of the employee
+first_name - the first name of the employee
+last_name - the last name of the employee
+
+
+--The projects table stores the employee_id for the employee assigned to each project.
+
+--Perform an inner join on the two tables, matching on the primary key and foreign key described above, and select all columns.
+
+SELECT *
+FROM projects
+INNER JOIN employees
+  ON projects.employee_id = employees.id;
+
+--Perform a join between the two tables, such that it selects all projects even if there is no employee assigned to it.
+
+SELECT *
+FROM projects
+LEFT JOIN employees
+  ON projects.employee_id = employees.id;
+
+
+###############################  Code Challenge 7
+The math_students and english_students tables have the following columns:
+
+student_id - the student id
+grade - the grade level of the student
+first_name - the student’s first name
+last_name - the student’s last name
+
+-- Using a subquery, get all students in math who are also enrolled in english.
+
+SELECT *
+FROM math_students
+WHERE student_id IN(
+  SELECT student_id
+  FROM english_students
+);
+
+-- Using a subquery, find out which students in math are in the same grade level as the student with id 7.
+
+SELECT *
+FROM math_students
+WHERE grade IN(
+  SELECT grade
+  FROM math_students
+  WHERE student_id = 7
+);

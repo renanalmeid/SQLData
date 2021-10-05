@@ -1,0 +1,53 @@
+########################   FIRST_VALUE and LAST_VALUE
+In the past, when we wanted to get the first or last value of a query, we might use the LIMIT clause, probably in conjunction with ORDER BY, which would return one result showing us the first or last value from our dataset.
+
+With window functions, we can return our first or last values alongside our other data by using the FIRST_VALUE() or LAST_VALUE() functions.
+
+SELECT
+   username,
+   posts,
+   FIRST_VALUE (posts) OVER (
+      PARTITION BY username 
+      ORDER BY posts
+   ) fewest_posts
+FROM
+   social_media;
+
+   This query should look familiar overall as it follows the standard window function format, however, we are using FIRST_VALUE now for posts. 
+   This means our window function will pull the first value from the posts column.
+
+
+   OVER (PARTITION BY username ORDER BY posts) fewest_posts: here we can see that posts is going to be pulled based on username due to the PARTITION BY
+   We are naming this column fewest_posts because of the ORDER BY which defaults to ascending order.
+
+
+
+   SELECT
+   username,
+   posts,
+   LAST_VALUE (posts) OVER (
+      PARTITION BY username 
+      ORDER BY posts
+      RANGE BETWEEN UNBOUNDED PRECEDING AND 
+      UNBOUNDED FOLLOWING
+    ) most_posts
+FROM
+    social_media;
+
+We saw that LAST_VALUE didn’t work as we expected. This is because each row in our results set is the last row at the time it is outputted.
+
+In order to get LAST_VALUE to show us the most posts for a user, we need to specify a frame for our window function.
+
+SELECT
+   username,
+   posts,
+   LAST_VALUE (posts) OVER (
+      PARTITION BY username 
+      ORDER BY posts
+      RANGE BETWEEN UNBOUNDED PRECEDING AND 
+      UNBOUNDED FOLLOWING
+    ) most_posts
+FROM
+    social_media;
+    
+
